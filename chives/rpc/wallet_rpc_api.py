@@ -77,6 +77,7 @@ class WalletRpcApi:
             "/get_next_address": self.get_next_address,
             "/send_transaction": self.send_transaction,
             "/send_transaction_multi": self.send_transaction_multi,
+            "/push_transaction": self.push_transaction,
             "/create_backup": self.create_backup,
             "/get_transaction_count": self.get_transaction_count,
             "/get_farmed_amount": self.get_farmed_amount,
@@ -764,6 +765,21 @@ class WalletRpcApi:
             "transaction": transaction,
             "transaction_id": transaction.name,
         }
+
+    async def push_transaction(self, request):
+        assert self.service.wallet_state_manager is not None
+
+        if await self.service.wallet_state_manager.synced() is False:
+            raise ValueError("Wallet needs to be fully synced before sending transactions")
+
+        wallet_id = uint32(request["wallet_id"])
+        wallet = self.service.wallet_state_manager.wallets[wallet_id]
+        tx = TransactionRecord.from_json_dict(request["transaction"])
+
+        async with self.service.wallet_state_manager.lock:
+            await wallet.push_transaction(tx)
+
+        return {"success": True}
 
     async def delete_unconfirmed_transactions(self, request):
         wallet_id = uint32(request["wallet_id"])
