@@ -16,14 +16,17 @@ if ($null -eq (Get-Command node -ErrorAction SilentlyContinue))
 Write-Output "Running 'git submodule update --init --recursive'."
 Write-Output ""
 git submodule update --init --recursive
+git submodule update
 
 Push-Location
 try {
     Set-Location chives-blockchain-gui
-
+    git fetch
+    git checkout main
+    git pull
     $ErrorActionPreference = "SilentlyContinue"
     npm install --loglevel=error
-    npm audit fix
+    npm audit fix --force
     npm run build
     py ..\installhelper.py
 
@@ -34,3 +37,4 @@ try {
 } finally {
     Pop-Location
 }
+
