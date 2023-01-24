@@ -128,7 +128,7 @@ async def validate_block_body(
         )
         community_coin = create_community_coin(
             prev_transaction_block_height,
-            constants.GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH,
+            GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH,
             calculate_base_community_reward(prev_transaction_block.height),
             constants.GENESIS_CHALLENGE,
         )
@@ -156,11 +156,11 @@ async def validate_block_body(
                         calculate_base_farmer_reward(curr_b.height),
                         constants.GENESIS_CHALLENGE,
                     )
-                )                
+                )               
                 expected_reward_coins.add(
                     create_community_coin(
                         curr_b.height,
-                        constants.GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH,
+                        GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH,
                         calculate_base_community_reward(curr_b.height),
                         constants.GENESIS_CHALLENGE,
                     )

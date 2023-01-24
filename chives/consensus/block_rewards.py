@@ -13,7 +13,6 @@ def calculate_pool_reward(height: uint32) -> uint64:
     (3 years, etc), due to fluctuations in difficulty. They will likely come early, if the network space and VDF
     rates increase continuously.
     """
-
     if height > 2600000:
         if height == 0:
             return uint64(int((7 / 8) * 0 * 0.45 * 100 * _mojo_per_chives))
