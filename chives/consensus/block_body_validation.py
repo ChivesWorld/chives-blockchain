@@ -105,6 +105,11 @@ async def validate_block_body(
     # 5. The reward claims must be valid for the previous blocks, and current block fees
     # If height == 0, expected_reward_coins will be left empty
     if height > 0:
+        # Stage 3 MasterNode
+        if height > 2600000:
+            GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH = bytes.fromhex('715def9fe21c793076f4e5d13b18326822103f26e459ec76e8b4850f38bddb3c')
+        else:
+            GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH = constants.GENESIS_PRE_FARM_COMMUNITY_PUZZLE_HASH
         # Add reward claims for all blocks from the prev prev block, until the prev block (including the latter)
         prev_transaction_block = blocks.block_record(block.foliage_transaction_block.prev_transaction_block_hash)
         prev_transaction_block_height = prev_transaction_block.height
